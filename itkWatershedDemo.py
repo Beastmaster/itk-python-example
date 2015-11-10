@@ -5,6 +5,8 @@
 #  Canny Edge Detection Filter
 #Reference:
 #
+#Fail to display:
+#     unsupported type of itk data: unsigned long (watershed filters required)
 
 
 import itk  #algorithm
