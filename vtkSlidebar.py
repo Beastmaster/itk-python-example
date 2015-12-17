@@ -62,6 +62,7 @@ sliderWidget.EnabledOn()
 
 
 # callback function for slide bar
+# this class is invalid and will cause crash
 class vtkSliderCallback(vtk.vtkCommand):
     def __init__(self):
         pass
