@@ -5,6 +5,19 @@
  Description:
    This file demostrate how to get the position of a 
    picked point.
+
+
+ Tips:
+
+ class MyStyle(vtk.vtkInteractorStyleImage):
+    def __init__(self):
+        pass
+    def OnMouseWheelForward(self):
+        pass
+
+ the above method will not re-load the mouse wheel function
+ the real functional method are applied by adding event observer
+
 '''
 
 
@@ -23,8 +36,8 @@ drawing.DrawCircle(9,10,5)
 drawing.Update()
 
 actor = vtk.vtkImageActor()
-actor.GetMapper().SetInput(drawing.GetOutput())
-actor.InterpolateOff();
+actor.GetMapper().SetInputData(drawing.GetOutput())
+actor.InterpolateOff()
 
 renderer = vtk.vtkRenderer()
 renderWin = vtk.vtkRenderWindow()
@@ -49,13 +62,24 @@ def keyPressCallBack(obj,event):
     renderWinInteractor.GetPicker().Pick(renderWinInteractor.GetEventPosition()[0],renderWinInteractor.GetEventPosition()[1],0,renderer)
     picked = renderWinInteractor.GetPicker().GetPickPosition()
     print "position is ",picked
+    picked = renderWinInteractor.GetPicker().GetSelectionPoint()
+    print "point is", picked
 
 
 # create a null interactorstyle to disable default rotation
 class MyStyle(vtk.vtkInteractorStyleImage):
     def __init__(self):
+        self.AddObserver("MiddleButtonPressEvent",self.middleButtonPressEvent)
+        self.AddObserver("MiddleButtonReleaseEvent",self.middleButtonReleaseEvent)
+    def middleButtonPressEvent(self,obj,event):
+        print("middle button pressed")
         pass
+    def middleButtonReleaseEvent(self,obj,event):
+        print("middle button released")
+        pass
+
 style = MyStyle()
+#style  = vtk.vtkInteractorStyleImage()
 renderWinInteractor.SetInteractorStyle(style)
 
 renderWinInteractor.AddObserver(vtk.vtkCommand.LeftButtonPressEvent,keyPressCallBack)

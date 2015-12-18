@@ -20,23 +20,30 @@ import vtk
 import sys
 import time
 
-class MyStyle(vtk.vtkInteractorStyleTrackballActor):
+class MyStyle(vtk.vtkInteractorStyleImage):
+    def __init__(self):
+        self.AddObserver
+
     def OnLeftButtonDown(self):
         print("pressed left mouse button",time.gmtime())
         m = vtk.vtkMatrix4x4
         self.Actor.GetMatrix(m)
         print("matrix:\n",m)
-        vtk.vtkInteractorStyleTrackballActor.OnLeftButtonDown()
+#        vtk.vtkInteractorStyleTrackballActor.OnLeftButtonDown()
 
     def OnLeftButtonUp(self):
         print("released left mouse button")
         m = vtk.vtkMatrix4x4()
         self.Actor.GetMatrix(m)
         print("matrix",m)
-        vtk.vtkInteractorStyleTrackballActor.OnLeftButtonUp()
+ #       vtk.vtkInteractorStyleTrackballActor.OnLeftButtonUp()
     def SetActor(self,actor):
         self.Actor = actor
 
+    def OnMouseWheelForward(self):
+        print("mouse wheel forward")
+        self.Actor.RotateY(10)
+  #      vtk.vtkInteractorStyleTrackballActor.OnMouseWheelForward()
 
 coneSource = vtk.vtkConeSource()
 coneSource.Update()

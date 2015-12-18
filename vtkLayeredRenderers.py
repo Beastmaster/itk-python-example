@@ -52,7 +52,7 @@ textSource = vtk.vtkVectorText()
 textSource.SetText("TXT")
 textSource.Update()
 
-textMapper = vtk.vtkPolyDataMapper() 
+textMapper = vtk.vtkPolyDataMapper()
 textMapper.SetInputData(textSource.GetOutput())
 
 textActor = vtk.vtkActor()
