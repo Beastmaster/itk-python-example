@@ -5,14 +5,17 @@ Description:
     This file demonstrate how to manipulate position/size/direction 
     of a image.
 Tips:
+    Method to get element of vtkMatrix4x4 is using GetElement(i,j)
+
+    You must re-render the window to apply the rotate transform
+
     There are 2 ways to achieve this goal.
     1. Manipulate actor. This method would not change properties of
         a image object, it only change view of the actor
     2. Apply transform image. This way will change properties of the
         image and more unlities have not been tested
 
-Bugs:
-    This version of demo seem to exists some problems
+
 
 '''
 
@@ -22,28 +25,39 @@ import time
 
 class MyStyle(vtk.vtkInteractorStyleImage):
     def __init__(self):
-        self.AddObserver
-
-    def OnLeftButtonDown(self):
+        self.AddObserver("LeftButtonPressEvent",self.OnLeftButtonDown)
+        self.AddObserver("LeftButtonReleaseEvent",self.OnLeftButtonUp)
+        self.AddObserver("MouseWheelForwardEvent",self.OnMouseWheelForward)
+        self.AddObserver("MouseWheelBackwardEvent",self.OnMouseWheelBackward)
+    def OnLeftButtonDown(self,obj,event):
         print("pressed left mouse button",time.gmtime())
-        m = vtk.vtkMatrix4x4
-        self.Actor.GetMatrix(m)
-        print("matrix:\n",m)
-#        vtk.vtkInteractorStyleTrackballActor.OnLeftButtonDown()
-
-    def OnLeftButtonUp(self):
-        print("released left mouse button")
         m = vtk.vtkMatrix4x4()
         self.Actor.GetMatrix(m)
-        print("matrix",m)
- #       vtk.vtkInteractorStyleTrackballActor.OnLeftButtonUp()
-    def SetActor(self,actor):
-        self.Actor = actor
-
-    def OnMouseWheelForward(self):
+        print "matrix is :"
+        for i in range(0,2):
+            for j in range(0,2):
+                print (m.GetElement(i,j))
+    def OnLeftButtonUp(self,obj,event):
+        print("released left mouse button")
+        m = vtk.vtkMatrix4x4()
+        print "matrix is :"
+        for i in range(0,2):
+            for j in range(0,2):
+                print (m.GetElement(i,j))
+    def OnMouseWheelForward(self,obj,event):
         print("mouse wheel forward")
         self.Actor.RotateY(10)
-  #      vtk.vtkInteractorStyleTrackballActor.OnMouseWheelForward()
+        self.win.Render()
+    def OnMouseWheelBackward(self,obj,event):
+        print ("mouse wheel backward")
+        self.Actor.RotateY(-10)
+        self.win.Render()
+
+    def SetActor(self,actor):
+        self.Actor = actor
+    def SetWindow(self,win):
+        self.win = win
+
 
 coneSource = vtk.vtkConeSource()
 coneSource.Update()
@@ -63,6 +77,7 @@ interactor.SetRenderWindow(renderWin)
 
 style = MyStyle()
 style.SetActor(actor)
+style.SetWindow(renderWin)
 
 interactor.SetInteractorStyle(style)
 

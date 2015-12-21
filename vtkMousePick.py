@@ -54,7 +54,7 @@ renderer.SetBackground2(0,0,1)
 
 renderWin.Render()
 
-def keyPressCallBack(obj,event):
+def LeftButtonPressEvent(obj,event):
     global renderWinInteractor
     global renderer
     coor = renderWinInteractor.GetEventPosition()
@@ -82,7 +82,7 @@ style = MyStyle()
 #style  = vtk.vtkInteractorStyleImage()
 renderWinInteractor.SetInteractorStyle(style)
 
-renderWinInteractor.AddObserver(vtk.vtkCommand.LeftButtonPressEvent,keyPressCallBack)
+renderWinInteractor.AddObserver(vtk.vtkCommand.LeftButtonPressEvent,LeftButtonPressEvent)
 
 renderWinInteractor.Start()
 
