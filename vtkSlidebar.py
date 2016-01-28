@@ -1,4 +1,4 @@
-'''
+﻿'''
  Author: QIN Shuo
  Date:   2015/11/10
  This is a example file for vtk
@@ -16,9 +16,10 @@ import vtk
 sphereSource = vtk.vtkSphereSource()
 sphereSource.SetCenter(0.0,0.0,0.0)
 sphereSource.SetRadius(4.0)
+sphereSource.Update()
 
 mapper = vtk.vtkPolyDataMapper()
-mapper.SetInput(sphereSource.GetOutput())
+mapper.SetInputData(sphereSource.GetOutput())
 
 
 actor = vtk.vtkActor()
@@ -62,7 +63,7 @@ sliderWidget.EnabledOn()
 
 
 # callback function for slide bar
-# this class is invalid and will cause crash
+# !!! this class is invalid and will cause crash
 class vtkSliderCallback(vtk.vtkCommand):
     def __init__(self):
         pass
@@ -77,16 +78,19 @@ class vtkSliderCallback(vtk.vtkCommand):
 
 def myCallback(obj,event):
     print "interaction called"
-    value = obj.GetRepresentation().GetValue()
+    value = int (obj.GetRepresentation().GetValue())
     global sphereSource
     sphereSource.SetPhiResolution(value)
     sphereSource.SetThetaResolution(value)
+    sphereSource.Update()
 
 # please pay attention here:  interactionEvent type must be added.
 #               and 2 ways to add it are listed below(by name or by vtk command)
 #sliderWidget.AddObserver(vtk.vtkCommand.InteractionEvent,myCallback)
 sliderWidget.AddObserver("InteractionEvent",myCallback)
 
+
+renderer.ResetCamera()
 renWinInteractor.Initialize()
 renderWin.Render()
 
