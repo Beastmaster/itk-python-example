@@ -55,9 +55,12 @@ def CreateSlider(renWinInteractor,plane,y):
 
     sliderWidget.AddObserver("InteractionEvent",myCallback)
 
+win = vtk.vtkRenderWindow()
 
 #create visulization component
-def DisplayPoly(source):
+def DisplayPoly(source,callback):
+    global win
+    
     polyMapper = vtk.vtkPolyDataMapper()
     polyMapper.SetInputData(source)
 
@@ -65,9 +68,10 @@ def DisplayPoly(source):
     actor.SetMapper(polyMapper)
 
     renderer = vtk.vtkRenderer()
-    win = vtk.vtkRenderWindow()
     intact = vtk.vtkRenderWindowInteractor()
     style = vtk.vtkInteractorStyleTrackballCamera()
+
+    intact.AddObserver(vtk.vtkCommand.KeyPressEvent,callback)
 
     win.AddRenderer(renderer)
     renderer.AddActor(actor)
@@ -141,8 +145,29 @@ else:
 
 march = vtk.vtkMarchingCubes()
 march.SetInputData(img)
-march.SetValue(500,1000)
+march.GenerateValues(1,1200,1500)
 march.Update()
+
+value_u = 1500
+value_l = 1200
+def callback(obj,event):
+    global value_l
+    global value_u
+    global win
+    key = obj.GetKeySym() 
+    if key == "Up":
+        value_l = value_l+50
+        march.GenerateValues(1,value_l,value_u)
+        march.Update()
+        print (value_l)
+    elif key == "Down":
+        value_u = value_u-50
+        march.GenerateValues(1,value_l,value_u)
+        march.Update()
+        print (value_u)
+    else:
+        pass
+    win.Render()
 
 print "threshold"
 
@@ -155,7 +180,7 @@ geometryFilter = vtk.vtkImageDataGeometryFilter()
 
 print "converted"
 
-DisplayPoly(img_dis)
+DisplayPoly(img_dis,callback)
 
 
 
