@@ -21,7 +21,7 @@ cylinder.Update()
 #function: pushing the geometry into the graphics library
 #others:   color mapping
 cylinderMapper = vtk.vtkPolyDataMapper()
-cylinderMapper.SetInput(cylinder.GetOutput())
+cylinderMapper.SetInputData(cylinder.GetOutput())
 
 #add an actor
 #set transformation matrix / texture map
@@ -41,6 +41,8 @@ renWin.AddRenderer(ren)
 interactor = vtk.vtkRenderWindowInteractor()
 interactor.SetRenderWindow(renWin)
 
+style = vtk.vtkInteractorStyleTrackballCamera()
+interactor.SetInteractorStyle(style)
 
 #add actors to renderer, set background and color
 ren.AddActor(cylinderActor)
@@ -56,6 +58,7 @@ ren.GetActiveCamera().Zoom(1.5)
 renWin.Render()
 
 #Start event loop
+interactor.Initialize()
 interactor.Start()
 
 

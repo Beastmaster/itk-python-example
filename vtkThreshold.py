@@ -23,7 +23,7 @@ def LoadNifti( name ):
     reader.Update()
     return reader.GetOutput()
 
-def CreateSlider():
+def CreateSlider(renWinInteractor,plane,y):
     #build a slide bar
     slideBar = vtk.vtkSliderRepresentation2D()
 
@@ -39,9 +39,9 @@ def CreateSlider():
     slideBar.GetCapProperty().SetColor(1,1,0)
 
     slideBar.GetPoint1Coordinate().SetCoordinateSystemToDisplay()
-    slideBar.GetPoint1Coordinate().SetValue(40,40)
+    slideBar.GetPoint1Coordinate().SetValue(40 ,40+y)
     slideBar.GetPoint2Coordinate().SetCoordinateSystemToDisplay()
-    slideBar.GetPoint2Coordinate().SetValue(200,40)
+    slideBar.GetPoint2Coordinate().SetValue(200,40+y)
 
     sliderWidget = vtk.vtkSliderWidget()
     sliderWidget.SetInteractor(renWinInteractor)
@@ -51,9 +51,9 @@ def CreateSlider():
     def myCallback(obj,event):
         print obj.__class__.__name__," called"
         value = int (obj.GetRepresentation().GetValue())
-        
+        plane.SetSliceIndex(value)
 
-
+    sliderWidget.AddObserver("InteractionEvent",myCallback)
 
 
 #create visulization component
@@ -67,7 +67,7 @@ def DisplayPoly(source):
     renderer = vtk.vtkRenderer()
     win = vtk.vtkRenderWindow()
     intact = vtk.vtkRenderWindowInteractor()
-    style = vtk.vtkInteractorStyleImage()
+    style = vtk.vtkInteractorStyleTrackballCamera()
 
     win.AddRenderer(renderer)
     renderer.AddActor(actor)
@@ -78,8 +78,12 @@ def DisplayPoly(source):
 
 
 def DisplayComponent(source):
+    renderer = vtk.vtkRenderer()
     win = vtk.vtkRenderWindow()
+    win.AddRenderer(renderer)
+    style = vtk.vtkInteractorStyleImage()
     intact = vtk.vtkRenderWindowInteractor()
+    intact.SetInteractorStyle(style)
     intact.SetRenderWindow(win)
     planeX = vtk.vtkImagePlaneWidget()
     planeY = vtk.vtkImagePlaneWidget()
@@ -94,12 +98,23 @@ def DisplayComponent(source):
     planeZ.SetInputData(source)
 
     planeX.SetPlaneOrientationToXAxes()
-	planeY.SetPlaneOrientationToXAxes()
-	planeZ.SetPlaneOrientationToXAxes()
+    planeY.SetPlaneOrientationToYAxes()
+    planeZ.SetPlaneOrientationToZAxes()
 
     planeX.On()
     planeY.On()
     planeZ.On()
+
+    def myCallback(obj,event):
+        print obj.__class__.__name__," called"
+        key = obj.GetKeySym() 
+        if key=="Up":
+            planeX.SetSliceIndex(50)
+        else:
+            pass
+    intact.AddObserver(vtk.vtkCommand.KeyPressEvent,myCallback)
+
+    intact.Start()
 
 
 # start main function
@@ -111,15 +126,38 @@ if os.path.isfile(name):
 else:
     print name, "is not a file"
 
-    
+
+
+#threshold imagedata
+
+#threshold = vtk.vtkImageThreshold()
+#threshold.SetInputData(img)
+#lower = 500
+#upper = 1000
+#threshold.ThresholdBetween(lower,upper)
+#threshold.ReplaceOutOn()
+#threshold.SetOutValue(0)
+#threshold.Update()
+
+march = vtk.vtkMarchingCubes()
+march.SetInputData(img)
+march.SetValue(500,1000)
+march.Update()
+
+print "threshold"
+
+img_dis = march.GetOutput()
 
 # convert vtkImageData to vtkPolyData
 geometryFilter = vtk.vtkImageDataGeometryFilter()
-geometryFilter.SetInputData(img)
+#geometryFilter.SetInputData(img_dis)
 #geometryFilter.Update()
 
-DisplayComponent(img)
-intact.Start()
+print "converted"
+
+DisplayPoly(img_dis)
+
+
 
 
 

@@ -1,4 +1,4 @@
-'''
+﻿'''
 Author:
 	pass QIN Shuo
 Date:
@@ -376,5 +376,5 @@ interactor1.SetInteractorStyle(new_style)
 
 # way2: add observer to interactor directly
 interactor2 = vtk.vtkRenderWindowInteractor()
-interactor2.AddObserver(tk.vtkCommand.LeftButtonPressEvent,LeftButtonPressEvent)
+interactor2.AddObserver(vtk.vtkCommand.LeftButtonPressEvent,LeftButtonPressEvent)
 
