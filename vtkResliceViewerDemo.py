@@ -1,4 +1,4 @@
-#Author: Qin Shuo
+﻿#Author: Qin Shuo
 #Date:   2015/10/27
 #Description:
 #  This example how to use vtkResliceImageViewer
@@ -7,32 +7,37 @@
 
 
 import vtk
+import sys
 
-directory = 'C:/Users/qinsh/Desktop/test'
+directory = 'E:/test/ct_spine'
+
+def DisplayImageData(data):
+    viewer = vtk.vtkResliceImageViewer()
+    interactor = vtk.vtkRenderWindowInteractor()
+    interactor.SetRenderWindow(viewer.GetRenderWindow())
+    
+    viewer.SetupInteractor(interactor)
+    viewer.SetInputData(data)
+    
+    # calculate index of middle slice in the dicom image
+    midSlice = viewer.GetSliceMax()/2
+    
+    # set up reslice view properties
+    viewer.SetSlice(midSlice)
+    viewer.SetSliceOrientationToXY()
+    viewer.GetRenderer().ResetCamera()
+    viewer.Render()
+    
+    interactor.Start()
 
 #vtk dicom reader, input dicom directory
-reader = vtk.vtkDICOMImageReader()
-reader.SetDirectoryName(directory)
-reader.Update()
-
-viewer = vtk.vtkResliceImageViewer()
-interactor = vtk.vtkRenderWindowInteractor()
-interactor.SetRenderWindow(viewer.GetRenderWindow())
-
-viewer.SetupInteractor(interactor)
-viewer.SetInput(reader.GetOutput())
-
-# calculate index of middle slice in the dicom image
-midSlice = viewer.GetSliceMax()/2
-
-# set up reslice view properties
-viewer.SetSlice(midSlice)
-viewer.SetSliceOrientationToXY()
-viewer.GetRenderer().ResetCamera()
-viewer.Render()
-
-interactor.Start()
+def DisplayDicom(folder = directory):
+    reader = vtk.vtkDICOMImageReader()
+    reader.SetDirectoryName(directory)
+    reader.Update()
+    DisplayImageData(reader.GetOutput())
 
 
-
+if __name__ == '__main__':
+    DisplayDicom()
 

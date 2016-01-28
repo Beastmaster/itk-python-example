@@ -36,28 +36,35 @@ import os
 folder_path = "E:/test/david/"
 
 for i in os.listdir(folder_path): #(os.getcwd()):
-    if i.endswith(".nii") or i.endswith(".py"): 
+    if (i.endswith(".nii") or i.endswith(".py")) and i.find("new") == -1: 
         name = folder_path + i
-        print "file",i, "type is: "
+        print "file ",i
         reader = vtk.vtkNIFTIImageReader()
         reader.SetFileName(name)
         reader.Update()
-        print reader.GetDataScalarType()
+        print "type is: ",reader.GetDataScalarType()
+        matrix = reader.GetQFormMatrix()
+        print "Ori QForm Matrix is",matrix
+
 
         caster = vtk.vtkImageCast()
-        caster
+        caster.SetInputData(reader.GetOutput())
+        caster.SetOutputScalarTypeToInt()
+        caster.Update()
 
-
-        i2 = i
+        i2 = "new"+i
+        print "writing to", i2
         writer = vtk.vtkNIFTIImageWriter()
+        #writer.SetQFac(-1)
+        writer.SetQFormMatrix(matrix)
         writer.SetFileName(folder_path+i2)
-        writer.Set
-
+        writer.SetInputData(caster.GetOutput())
+        writer.Update()
     else:
         pass
 
 
-
+print "Done!!"
 
 
 
