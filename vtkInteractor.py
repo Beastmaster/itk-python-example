@@ -45,7 +45,7 @@ import vtk
 
 # define a interactor style that re-implement all event callback
 
-
+'''
 class QIN_Style(vtk.vtkInteractorStyleImage):
 	def __init__(self):
 		self.AddObserver("NoEvent",self.NoEvent)
@@ -153,6 +153,7 @@ class QIN_Style(vtk.vtkInteractorStyleImage):
 	def LeaveEvent(self,obj,event):
 		pass
 	def KeyPressEvent(self,obj,event):
+        self.key = self.parent.GetKeySym()
 		pass
 	def KeyReleaseEvent(self,obj,event):
 		pass
@@ -281,6 +282,7 @@ def EnterEvent(obj,event):
 def LeaveEvent(obj,event):
 	pass
 def KeyPressEvent(obj,event):
+    key = obj.GetKeySym() 
 	pass
 def KeyReleaseEvent(obj,event):
 	pass
@@ -367,7 +369,7 @@ def WidgetActivateEvent(obj,event):
 def UserEvent(obj,event):
 	pass
 
-
+'''
 
 # way1: create a interactorstyle and add it to interactor
 interactor1 = vtk.vtkRenderWindowInteractor()
