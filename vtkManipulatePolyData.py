@@ -5,7 +5,7 @@ Description:
     Demo: how to manipulate the poly data
     1. xml poly data, .vtp format
 
-
+    Main:  vtk.vtkTransformFilter()
 '''
 
 import string

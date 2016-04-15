@@ -1,4 +1,4 @@
-'''
+﻿'''
  Author: QIN Shuo
  Date:   2016/01/28
 
@@ -109,11 +109,18 @@ def DisplayComponent(source):
     planeY.On()
     planeZ.On()
 
+    global pos
+    pos = 1
+
     def myCallback(obj,event):
-        print obj.__class__.__name__," called"
+        global pos
+        #print obj.__class__.__name__," called"
         key = obj.GetKeySym() 
         if key=="Up":
-            planeX.SetSliceIndex(50)
+            pos = pos+1
+            planeX.SetSliceIndex(pos)
+            print pos
+            win.Render()
         else:
             pass
     intact.AddObserver(vtk.vtkCommand.KeyPressEvent,myCallback)
@@ -130,7 +137,7 @@ if os.path.isfile(name):
 else:
     print name, "is not a file"
 
-
+DisplayComponent(img)
 
 #threshold imagedata
 
