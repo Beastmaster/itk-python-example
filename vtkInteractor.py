@@ -51,209 +51,214 @@ inhert class format
 
 class new_style(vtk.vtkInteractorStyleImage):
     def __init__(self):
-        self.AddObserver("NoEvent",self.new_NoEvent) # "new_NoEvent" is user defined name, and should be implemented in the class
-
+        self.AddObserver("NoEvent",self.e_new_NoEvent) # "OnEvent" is the name of vtkCommand   ;"new_NoEvent" is user defined name, and should be implemented in the class
+                                                     # function name must different from that defined in vtkInteractorStyle
+                                                     # vtkCommand class, command ID defined by vtk default
     def new_NoEvent(self,obj,event):
         obj.GetSomething # get objects function
-        self.OnNoEvent()  # this line is important, and the function is listed in vtkInteractorStyle class
+
+        self.e_GetInteractor().GetXXX()  # functions found in vtkInteractorStyleUser class (refer to GetKeySym example)
+
+        self.e_OnNoEvent()  # this line is important, and the function is listed in vtkInteractorStyle class
         return              # "return " is also badly needed
 '''
 
 class QIN_Style(vtk.vtkInteractorStyleImage):
     def __init__(self):
-        self.AddObserver("NoEvent",self.NoEvent)
-        self.AddObserver("AnyEvent",self.AnyEvent)
-        self.AddObserver("DeleteEvent",self.DeleteEvent)
-        self.AddObserver("StartEvent",self.StartEvent)
-        self.AddObserver("EndEvent",self.EndEvent)
-        self.AddObserver("RenderEvent",self.RenderEvent)
-        self.AddObserver("ProgressEvent",self.ProgressEvent)
-        self.AddObserver("PickEvent",self.PickEvent)
-        self.AddObserver("StartPickEvent",self.StartPickEvent)
-        self.AddObserver("EndPickEvent",self.EndPickEvent)
-        self.AddObserver("AbortCheckEvent",self.AbortCheckEvent)
-        self.AddObserver("ExitEvent",self.ExitEvent)
-        self.AddObserver("LeftButtonPressEvent",self.LeftButtonPressEvent)
-        self.AddObserver("LeftButtonReleaseEvent",self.LeftButtonReleaseEvent)
-        self.AddObserver("MiddleButtonPressEvent",self.MiddleButtonPressEvent)
-        self.AddObserver("MiddleButtonReleaseEvent",self.MiddleButtonReleaseEvent)
-        self.AddObserver("RightButtonPressEvent",self.RightButtonPressEvent)
-        self.AddObserver("RightButtonReleaseEvent",self.RightButtonReleaseEvent)
-        self.AddObserver("EnterEvent",self.EnterEvent)
-        self.AddObserver("LeaveEvent",self.LeaveEvent)
+        self.AddObserver("NoEvent",self.e_NoEvent)
+        self.AddObserver("AnyEvent",self.e_AnyEvent)
+        self.AddObserver("DeleteEvent",self.e_DeleteEvent)
+        self.AddObserver("StartEvent",self.e_StartEvent)
+        self.AddObserver("EndEvent",self.e_EndEvent)
+        self.AddObserver("RenderEvent",self.e_RenderEvent)
+        self.AddObserver("ProgressEvent",self.e_ProgressEvent)
+        self.AddObserver("PickEvent",self.e_PickEvent)
+        self.AddObserver("StartPickEvent",self.e_StartPickEvent)
+        self.AddObserver("EndPickEvent",self.e_EndPickEvent)
+        self.AddObserver("AbortCheckEvent",self.e_AbortCheckEvent)
+        self.AddObserver("ExitEvent",self.e_ExitEvent)
+        self.AddObserver("LeftButtonPressEvent",self.e_LeftButtonPressEvent)
+        self.AddObserver("LeftButtonReleaseEvent",self.e_LeftButtonReleaseEvent)
+        self.AddObserver("MiddleButtonPressEvent",self.e_MiddleButtonPressEvent)
+        self.AddObserver("MiddleButtonReleaseEvent",self.e_MiddleButtonReleaseEvent)
+        self.AddObserver("RightButtonPressEvent",self.e_RightButtonPressEvent)
+        self.AddObserver("RightButtonReleaseEvent",self.e_RightButtonReleaseEvent)
+        self.AddObserver("EnterEvent",self.e_EnterEvent)
+        self.AddObserver("LeaveEvent",self.e_LeaveEvent)
         self.AddObserver("KeyPressEvent",self.e_KeyPressEvent)
-        self.AddObserver("KeyReleaseEvent",self.KeyReleaseEvent)
-        self.AddObserver("CharEvent",self.CharEvent)
-        self.AddObserver("ExposeEvent",self.ExposeEvent)
-        self.AddObserver("ConfigureEvent",self.ConfigureEvent)
-        self.AddObserver("TimerEvent",self.TimerEvent)
-        self.AddObserver("MouseMoveEvent",self.MouseMoveEvent)
-        self.AddObserver("MouseWheelForwardEvent",self.MouseWheelForwardEvent)
-        self.AddObserver("MouseWheelBackwardEvent",self.MouseWheelBackwardEvent)
-        self.AddObserver("ResetCameraEvent",self.ResetCameraEvent)
-        self.AddObserver("ResetCameraClippingRangeEvent",self.ResetCameraClippingRangeEvent)
-        self.AddObserver("ModifiedEvent",self.ModifiedEvent)
-        self.AddObserver("WindowLevelEvent",self.WindowLevelEvent)
-        self.AddObserver("StartWindowLevelEvent",self.StartWindowLevelEvent)
-        self.AddObserver("EndWindowLevelEvent",self.EndWindowLevelEvent)
-        self.AddObserver("ResetWindowLevelEvent",self.ResetWindowLevelEvent)
-        self.AddObserver("SetOutputEvent",self.SetOutputEvent)
-        self.AddObserver("ErrorEvent",self.ErrorEvent)
-        self.AddObserver("WarningEvent",self.WarningEvent)
-        self.AddObserver("StartInteractionEvent",self.StartInteractionEvent)
-        self.AddObserver("InteractionEvent",self.InteractionEvent)
-        self.AddObserver("EndInteractionEvent",self.EndInteractionEvent)
-        self.AddObserver("EnableEvent",self.EnableEvent)
-        self.AddObserver("DisableEvent",self.DisableEvent)
-        self.AddObserver("CreateTimerEvent",self.CreateTimerEvent)
-        self.AddObserver("DestroyTimerEvent",self.DestroyTimerEvent)
-        self.AddObserver("PlacePointEvent",self.PlacePointEvent)
-        self.AddObserver("PlaceWidgetEvent",self.PlaceWidgetEvent)
-        self.AddObserver("CursorChangedEvent",self.CursorChangedEvent)
-        self.AddObserver("ExecuteInformationEvent",self.ExecuteInformationEvent)
-        self.AddObserver("RenderWindowMessageEvent",self.RenderWindowMessageEvent)
-        self.AddObserver("WrongTagEvent",self.WrongTagEvent)
-        self.AddObserver("StartAnimationCueEvent",self.StartAnimationCueEvent)
-        self.AddObserver("AnimationCueTickEvent",self.AnimationCueTickEvent)
-        self.AddObserver("EndAnimationCueEvent",self.EndAnimationCueEvent)
-        self.AddObserver("VolumeMapperRenderProgressEvent",self.VolumeMapperRenderProgressEvent)
-        self.AddObserver("VolumeMapperComputeGradientsEndEvent",self.VolumeMapperComputeGradientsEndEvent)
-        self.AddObserver("VolumeMapperComputeGradientsProgressEvent",self.VolumeMapperComputeGradientsProgressEvent)
-        self.AddObserver("VolumeMapperComputeGradientsStartEvent",self.VolumeMapperComputeGradientsStartEvent)
-        self.AddObserver("WidgetModifiedEvent",self.WidgetModifiedEvent)
-        self.AddObserver("WidgetValueChangedEvent",self.WidgetValueChangedEvent)
-        self.AddObserver("WidgetActivateEvent",self.WidgetActivateEvent)
-        self.AddObserver("UserEvent",self.UserEvent)
+        self.AddObserver("KeyReleaseEvent",self.e_KeyReleaseEvent)
+        self.AddObserver("CharEvent",self.e_CharEvent)
+        self.AddObserver("ExposeEvent",self.e_ExposeEvent)
+        self.AddObserver("ConfigureEvent",self.e_ConfigureEvent)
+        self.AddObserver("TimerEvent",self.e_TimerEvent)
+        self.AddObserver("MouseMoveEvent",self.e_MouseMoveEvent)
+        self.AddObserver("MouseWheelForwardEvent",self.e_MouseWheelForwardEvent)
+        self.AddObserver("MouseWheelBackwardEvent",self.e_MouseWheelBackwardEvent)
+        self.AddObserver("ResetCameraEvent",self.e_ResetCameraEvent)
+        self.AddObserver("ResetCameraClippingRangeEvent",self.e_ResetCameraClippingRangeEvent)
+        self.AddObserver("ModifiedEvent",self.e_ModifiedEvent)
+        self.AddObserver("WindowLevelEvent",self.e_WindowLevelEvent)
+        self.AddObserver("StartWindowLevelEvent",self.e_StartWindowLevelEvent)
+        self.AddObserver("EndWindowLevelEvent",self.e_EndWindowLevelEvent)
+        self.AddObserver("ResetWindowLevelEvent",self.e_ResetWindowLevelEvent)
+        self.AddObserver("SetOutputEvent",self.e_SetOutputEvent)
+        self.AddObserver("ErrorEvent",self.e_ErrorEvent)
+        self.AddObserver("WarningEvent",self.e_WarningEvent)
+        self.AddObserver("StartInteractionEvent",self.e_StartInteractionEvent)
+        self.AddObserver("InteractionEvent",self.e_InteractionEvent)
+        self.AddObserver("EndInteractionEvent",self.e_EndInteractionEvent)
+        self.AddObserver("EnableEvent",self.e_EnableEvent)
+        self.AddObserver("DisableEvent",self.e_DisableEvent)
+        self.AddObserver("CreateTimerEvent",self.e_CreateTimerEvent)
+        self.AddObserver("DestroyTimerEvent",self.e_DestroyTimerEvent)
+        self.AddObserver("PlacePointEvent",self.e_PlacePointEvent)
+        self.AddObserver("PlaceWidgetEvent",self.e_PlaceWidgetEvent)
+        self.AddObserver("CursorChangedEvent",self.e_CursorChangedEvent)
+        self.AddObserver("ExecuteInformationEvent",self.e_ExecuteInformationEvent)
+        self.AddObserver("RenderWindowMessageEvent",self.e_RenderWindowMessageEvent)
+        self.AddObserver("WrongTagEvent",self.e_WrongTagEvent)
+        self.AddObserver("StartAnimationCueEvent",self.e_StartAnimationCueEvent)
+        self.AddObserver("AnimationCueTickEvent",self.e_AnimationCueTickEvent)
+        self.AddObserver("EndAnimationCueEvent",self.e_EndAnimationCueEvent)
+        self.AddObserver("VolumeMapperRenderProgressEvent",self.e_VolumeMapperRenderProgressEvent)
+        self.AddObserver("VolumeMapperComputeGradientsEndEvent",self.e_VolumeMapperComputeGradientsEndEvent)
+        self.AddObserver("VolumeMapperComputeGradientsProgressEvent",self.e_VolumeMapperComputeGradientsProgressEvent)
+        self.AddObserver("VolumeMapperComputeGradientsStartEvent",self.e_VolumeMapperComputeGradientsStartEvent)
+        self.AddObserver("WidgetModifiedEvent",self.e_WidgetModifiedEvent)
+        self.AddObserver("WidgetValueChangedEvent",self.e_WidgetValueChangedEvent)
+        self.AddObserver("WidgetActivateEvent",self.e_WidgetActivateEvent)
+        self.AddObserver("UserEvent",self.e_UserEvent)
 
-    def NoEvent(self,obj,event):
+    def e_NoEvent(self,obj,event):
         pass
-    def AnyEvent(self,obj,event):
+    def e_AnyEvent(self,obj,event):
         pass
-    def DeleteEvent(self,obj,event):
+    def e_DeleteEvent(self,obj,event):
         pass
-    def StartEvent(self,obj,event):
+    def e_StartEvent(self,obj,event):
         pass
-    def EndEvent(self,obj,event):
+    def e_EndEvent(self,obj,event):
         pass
-    def RenderEvent(self,obj,event):
+    def e_RenderEvent(self,obj,event):
         pass
-    def ProgressEvent(self,obj,event):
+    def e_ProgressEvent(self,obj,event):
         pass
-    def PickEvent(self,obj,event):
+    def e_PickEvent(self,obj,event):
         pass
-    def StartPickEvent(self,obj,event):
+    def e_StartPickEvent(self,obj,event):
         pass
-    def EndPickEvent(self,obj,event):
+    def e_EndPickEvent(self,obj,event):
         pass
-    def AbortCheckEvent(self,obj,event):
+    def e_AbortCheckEvent(self,obj,event):
         pass
-    def ExitEvent(self,obj,event):
+    def e_ExitEvent(self,obj,event):
         pass
-    def LeftButtonPressEvent(self,obj,event):
+    def e_LeftButtonPressEvent(self,obj,event):
         pass
-    def LeftButtonReleaseEvent(self,obj,event):
+    def e_LeftButtonReleaseEvent(self,obj,event):
         pass
-    def MiddleButtonPressEvent(self,obj,event):
+    def e_MiddleButtonPressEvent(self,obj,event):
         pass
-    def MiddleButtonReleaseEvent(self,obj,event):
+    def e_MiddleButtonReleaseEvent(self,obj,event):
         pass
-    def RightButtonPressEvent(self,obj,event):
+    def e_RightButtonPressEvent(self,obj,event):
         pass
-    def RightButtonReleaseEvent(self,obj,event):
+    def e_RightButtonReleaseEvent(self,obj,event):
         pass
-    def EnterEvent(self,obj,event):
+    def e_EnterEvent(self,obj,event):
         pass
-    def LeaveEvent(self,obj,event):
+    def e_LeaveEvent(self,obj,event):
         pass
     def e_KeyPressEvent(self,obj,event):
-           self.key = self.parent.GetKeySym()
-           self.OnKeyDown()
-           #self.OnKeyUp()
-           #self.OnKeyPress()
-           #self.OnkeyRelease()
-    def KeyReleaseEvent(self,obj,event):
+        key = self.e_GetInteractor().GetKeySym()
+        self.e_OnkeyRelease()    # reload function
+        #self.e_OnKeyDown()
+        #self.e_OnKeyUp()
+        #self.e_OnKeyPress()
+        return 
+    def e_KeyReleaseEvent(self,obj,event):
         pass
-    def CharEvent(self,obj,event):
+    def e_CharEvent(self,obj,event):
         pass
-    def ExposeEvent(self,obj,event):
+    def e_ExposeEvent(self,obj,event):
         pass
-    def ConfigureEvent(self,obj,event):
+    def e_ConfigureEvent(self,obj,event):
         pass
-    def TimerEvent(self,obj,event):
+    def e_TimerEvent(self,obj,event):
         pass
-    def MouseMoveEvent(self,obj,event):
+    def e_MouseMoveEvent(self,obj,event):
         pass
-    def MouseWheelForwardEvent(self,obj,event):
+    def e_MouseWheelForwardEvent(self,obj,event):
         pass
-    def MouseWheelBackwardEvent(self,obj,event):
+    def e_MouseWheelBackwardEvent(self,obj,event):
         pass
-    def ResetCameraEvent(self,obj,event):
+    def e_ResetCameraEvent(self,obj,event):
         pass
-    def ResetCameraClippingRangeEvent (self,obj,event):
+    def e_ResetCameraClippingRangeEvent (self,obj,event):
         pass
-    def ModifiedEvent(self,obj,event):
+    def e_ModifiedEvent(self,obj,event):
         pass
-    def WindowLevelEvent(self,obj,event):
+    def e_WindowLevelEvent(self,obj,event):
         pass
-    def StartWindowLevelEvent(self,obj,event):
+    def e_StartWindowLevelEvent(self,obj,event):
         pass
-    def EndWindowLevelEvent(self,obj,event):
+    def e_EndWindowLevelEvent(self,obj,event):
         pass
-    def ResetWindowLevelEvent(self,obj,event):
+    def e_ResetWindowLevelEvent(self,obj,event):
         pass
-    def SetOutputEvent(self,obj,event):
+    def e_SetOutputEvent(self,obj,event):
         pass
-    def ErrorEvent(self,obj,event):
+    def e_ErrorEvent(self,obj,event):
         pass
-    def WarningEvent(self,obj,event):
+    def e_WarningEvent(self,obj,event):
         pass
-    def StartInteractionEvent(self,obj,event):
+    def e_StartInteractionEvent(self,obj,event):
         pass
-    def InteractionEvent(self,obj,event):
+    def e_InteractionEvent(self,obj,event):
         pass
-    def EndInteractionEvent(self,obj,event):
+    def e_EndInteractionEvent(self,obj,event):
         pass
-    def EnableEvent(self,obj,event):
+    def e_EnableEvent(self,obj,event):
         pass
-    def DisableEvent(self,obj,event):
+    def e_DisableEvent(self,obj,event):
         pass
-    def CreateTimerEvent(self,obj,event):
+    def e_CreateTimerEvent(self,obj,event):
         pass
-    def DestroyTimerEvent(self,obj,event):
+    def e_DestroyTimerEvent(self,obj,event):
         pass
-    def PlacePointEvent(self,obj,event):
+    def e_PlacePointEvent(self,obj,event):
         pass
-    def PlaceWidgetEvent(self,obj,event):
+    def e_PlaceWidgetEvent(self,obj,event):
         pass
-    def CursorChangedEvent(self,obj,event):
+    def e_CursorChangedEvent(self,obj,event):
         pass
-    def ExecuteInformationEvent(self,obj,event):
+    def e_ExecuteInformationEvent(self,obj,event):
         pass
-    def RenderWindowMessageEvent(self,obj,event):
+    def e_RenderWindowMessageEvent(self,obj,event):
         pass
-    def WrongTagEvent(self,obj,event):
+    def e_WrongTagEvent(self,obj,event):
         pass
-    def StartAnimationCueEvent(self,obj,event):
+    def e_StartAnimationCueEvent(self,obj,event):
         pass
-    def AnimationCueTickEvent(self,obj,event):
+    def e_AnimationCueTickEvent(self,obj,event):
         pass
-    def EndAnimationCueEvent(self,obj,event):
+    def e_EndAnimationCueEvent(self,obj,event):
         pass
-    def VolumeMapperRenderProgressEvent(self,obj,event):
+    def e_VolumeMapperRenderProgressEvent(self,obj,event):
         pass
-    def VolumeMapperComputeGradientsEndEvent(self,obj,event):
+    def e_VolumeMapperComputeGradientsEndEvent(self,obj,event):
         pass
-    def VolumeMapperComputeGradientsProgressEvent(self,obj,event):
+    def e_VolumeMapperComputeGradientsProgressEvent(self,obj,event):
         pass
-    def VolumeMapperComputeGradientsStartEvent(self,obj,event):
+    def e_VolumeMapperComputeGradientsStartEvent(self,obj,event):
         pass
-    def WidgetModifiedEvent(self,obj,event):
+    def e_WidgetModifiedEvent(self,obj,event):
         pass
-    def WidgetValueChangedEvent(self,obj,event):
+    def e_WidgetValueChangedEvent(self,obj,event):
         pass
-    def WidgetActivateEvent(self,obj,event):
+    def e_WidgetActivateEvent(self,obj,event):
         pass
-    def UserEvent(self,obj,event):
+    def e_UserEvent(self,obj,event):
         pass
 
 # define global event call back function

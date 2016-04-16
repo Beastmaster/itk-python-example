@@ -31,8 +31,9 @@ class QIN_Style(vtk.vtkInteractorStyleImage):
         self.AddObserver("KeyPressEvent",self.keyPressEvent)
 
     def keyPressEvent(self,obj,event):
-        print "Key pressed"
-        self.OnKeyPressEvent()
+        key = self.GetInteractor().GetKeySym()
+        print key
+        self.OnKeyPress()
         return 
 
     pass
