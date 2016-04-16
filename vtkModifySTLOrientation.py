@@ -1,4 +1,4 @@
-'''
+﻿'''
 Author: QIN Shuo
 Date: 2016/4/15
 Organization: RC-MIC (CUHK)
@@ -26,8 +26,50 @@ def ReadSTL(filename):
     return reader.GetOutput()
 
 
+class QIN_Style(vtk.vtkInteractorStyleImage):
+    def __init__(self,parent  = None):
+        self.AddObserver("KeyPressEvent",self.keyPressEvent)
+
+    def keyPressEvent(self,obj,event):
+        print "Key pressed"
+        self.OnKeyPressEvent()
+        return 
+
+    pass
+
+
+
 # modify orientation
 def vtkModifySTLOrientation():
+    global pos_X
+    global pos_Y
+    global pos_Z
+    global ori_X
+    global ori_Y
+    global ori_Z
+
+    pos_X = 0.0
+    pos_Y = 0.0
+    pos_Z = 0.0
+    ori_X = 0.0
+    ori_Y = 0.0
+    ori_Z = 0.0
+
+    # Main function to manipulate transform
+    def KeyPressEvent(obj,event):
+        global pos_X
+        global pos_Y
+        global pos_Z
+        global ori_X
+        global ori_Y
+        global ori_Z
+
+        
+
+        print("key pressed")
+        key = obj.GetKeySym()
+
+
     pass
 
 
@@ -53,6 +95,10 @@ def Visualize_Orientation(model):
     win = vtk.vtkRenderWindow()
     win.AddRenderer(renderer)
     interactor = vtk.vtkRenderWindowInteractor()
+    
+    interactor_style = QIN_Style()
+    interactor.SetInteractorStyle(interactor_style)
+
     win.SetInteractor(interactor)
     win.Render()
     interactor.Start()
