@@ -34,6 +34,9 @@ def OnMouseWheelForward(self):
  the above method will not re-load the mouse wheel function
  the real functional method are applied by adding event observer
 
+
+ Note:
+    There is no vtkCallbackCommand in python
 '''
 
 
