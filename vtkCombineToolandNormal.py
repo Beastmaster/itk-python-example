@@ -119,9 +119,37 @@ def Visualize(coil):
         transform = vtk.vtkTransform()
         transform.Translate(picked)
         line_actor.SetUserTransform(transform)
+    
         
+    def keyPressEvent(obj,event):
+        global line_actor
+        global interactor
+        global renderer
+        #key = .GetInteractor().GetKeySym()
+        key = obj.GetKeySym()
+        print key
+        # translation
+        if key == "h":
+            print "key is ",key
+            coor = interactor.GetEventPosition()
+            print "coordinate is ", coor
+            interactor.GetPicker().Pick(interactor.GetEventPosition()[0],interactor.GetEventPosition()[1],0,renderer)
+            picked = interactor.GetPicker().GetPickPosition()
+            print "position is ",picked
+            point = interactor.GetPicker().GetSelectionPoint()
+            print "point is", point
+            
+            # translation
+            global transform
+            transform = vtk.vtkTransform()
+            transform.Translate(picked)
+            line_actor.SetUserTransform(transform)
+            win.Render()
+        else:
+            pass
 
-    interactor.AddObserver(vtk.vtkCommand.LeftButtonPressEvent,LeftButtonPressEvent)
+    #interactor.AddObserver(vtk.vtkCommand.LeftButtonPressEvent,LeftButtonPressEvent)
+    interactor.AddObserver(vtk.vtkCommand.KeyPressEvent,keyPressEvent)
 
     win.Render()
     interactor.Start()
@@ -130,7 +158,7 @@ def Visualize(coil):
 
 
 if __name__ == '__main__':
-    if len(sys.argv)<3:
+    if len(sys.argv)<2:
         print "Input Error: you must input 2 parameters"
         print "Para1: Source model file name, a .stl file"
         print "Para2: Output model file name, a .stl file"
@@ -140,6 +168,8 @@ if __name__ == '__main__':
         in_file = sys.argv[1]
         out_file = sys.argv[2]
     
+    print "Press \"h\" to append the line"
+
     print "Reading STL"
     coil = ReadSTL(in_file)
 

@@ -140,5 +140,6 @@ def vtkManipulatePolyData(filename):
 
 if __name__ == '__main__':
     #file_name = sys.argv[1]
-    file_name = "E:/test/QinShuoTShape.stl"
+    #if len(sys.argv)<2:
+    file_name = "E:/test/coil__2_s.stl"
     vtkManipulatePolyData(file_name)
