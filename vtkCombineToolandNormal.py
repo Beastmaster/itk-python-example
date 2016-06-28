@@ -11,6 +11,11 @@ Description:
               Compute normal
               Mouse select a position (mouse click callback)
               Transform a polydata(the focus line)
+
+
+SubSystem:
+    TMS Navigation
+
 '''
 
 

@@ -12,6 +12,10 @@ Description:
               Compute normal
               Mouse select a position (mouse click callback)
               Transform a polydata(the focus line)
+
+SubSystem:
+    TMS Navigation
+
 '''
 
 
@@ -205,7 +209,15 @@ if __name__ == '__main__':
     else:
         in_file = sys.argv[1]
         out_file = sys.argv[2]
+        pass
 
+    print "Fucntion:"
+    print "Rotation:  X axis:  z + s "
+    print "           Y axis:  a + d "
+    print "           Z axis:  c + x \n"
+    print "Moving:    X axis:  i + k "
+    print "           Y axis:  j + l"
+    print "           Z axis:  c + x"
 
     model = ReadSTL(in_file)
     

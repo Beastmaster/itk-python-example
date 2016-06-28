@@ -8,6 +8,9 @@ Description:
     Press a key to get the position information
     Add a ball in the selected position
 
+SubSystem:
+    TMS Navigation
+
 '''
 
 
