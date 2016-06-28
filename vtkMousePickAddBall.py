@@ -23,7 +23,7 @@ class vtkMousePickAddBall():
     def __init__(self,model):
         print "Put the mouse to desired position and press \"h\" to add a ball"
         print "Press \"s\" to save the scene as a picture"
-
+        self.screen_name = "ttt.png"
         self.renderer = vtk.vtkRenderer()
         self.renWin = vtk.vtkRenderWindow()
         self.interactor = vtk.vtkRenderWindowInteractor()
@@ -33,69 +33,79 @@ class vtkMousePickAddBall():
         mapper.SetInputData(model)
         self.modelActor = vtk.vtkActor()
         self.modelActor.SetMapper(mapper)
-        self.modelActor.GetProperty().SetColor(1,0,0)
+        
 
         ball = vtk.vtkSphereSource()
         ball.SetCenter(0.0,0.0,0.0)
+        ball.SetThetaResolution(50)
         ball.SetRadius(5.0)
         ball.Update()
         ballMapper = vtk.vtkPolyDataMapper()
         ballMapper.SetInputData(ball.GetOutput())
         self.ballActor = vtk.vtkActor()
         self.ballActor.SetMapper(ballMapper)
+        self.ballActor.GetProperty().SetColor(1,0,0)
+
+        self.txtActor = vtk.vtkTextActor()
+        self.renderer.AddActor(self.txtActor)
 
         self.renderer.AddActor(self.ballActor)
         self.renderer.AddActor(self.modelActor)
 
+        self.registerCallbacks()
         self.renWin.AddRenderer(self.renderer)
-        self.interactor.SetRenderWindow(renWin)
-
+        self.interactor.SetRenderWindow(self.renWin)
+        self.interactor.Start()
         pass
 
 
-    def registerCallbacks(self,obj,event):
-        key = obj.GetKeySym()
-        print key
-        # translation
-        if key == "h":
-            print "key is ",key
-            coor = interactor.GetEventPosition()
-            print "coordinate is ", coor
-            interactor.GetPicker().Pick(interactor.GetEventPosition()[0],interactor.GetEventPosition()[1],0,renderer)
-            picked = interactor.GetPicker().GetPickPosition()
-            print "position is ",picked
-            point = interactor.GetPicker().GetSelectionPoint()
-            print "point is", point
-            
+    def registerCallbacks(self):
+        def keyPressEvent(obj,event):
+            key = obj.GetKeySym()
+            print key
             # translation
-            transform = vtk.vtkTransform()
-            transform.Translate(picked)
-            self.ballActor.SetUserTransform(transform)
-
-            # add text
-            text = str(coor)
-            self.vtkAddText(text)
-            self.renWin.Render()
-        elif key=="s":
-            self.vtkSavePicture("aaa.png")
+            if key == "h":
+                print "key is ",key
+                coor = self.interactor.GetEventPosition()
+                print "coordinate is ", coor  # coordinate in 2d view
+                self.interactor.GetPicker().Pick(self.interactor.GetEventPosition()[0],self.interactor.GetEventPosition()[1],0,self.renderer)
+                picked = self.interactor.GetPicker().GetPickPosition()
+                print "position is ",picked  # this is the true 3d coordinate
+                point = self.interactor.GetPicker().GetSelectionPoint()
+                print "point is", point    # coordinate in 2d view
             
-        else:
-            pass 
+                # translation
+                transform = vtk.vtkTransform()
+                transform.Translate(picked)
+                self.ballActor.SetUserTransform(transform)
+
+                # add text
+                text = str(picked)
+                self.vtkSetText(text)
+                self.renWin.Render()
+            elif key=="s":
+                self.vtkSavePicture(self.screen_name)
+            
+            else:
+                pass 
         
+        self.interactor.AddObserver(vtk.vtkCommand.KeyPressEvent,keyPressEvent)
         pass
 
 
     # Input:
     #   text: a string to be add to view
-    def vtkAddText(self, text):
-        self.txtActor = vtk.vtkTextActor()
+    def vtkSetText(self, text):
         self.txtActor.SetInput(text)
         self.txtActor.SetPosition2(10,40);
         self.txtActor.GetTextProperty().SetFontSize ( 24 );  
         self.txtActor.GetTextProperty().SetColor ( 1.0, 0.0, 0.0 );
-        self.renderer.AddActor(self.txtActor)
         self.renWin.Render()
         pass
+
+
+    def SetScreeShotName(self,name):
+        self.screen_name = name
 
     # Input:
     #   filename: a string, filename
