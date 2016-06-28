@@ -1,9 +1,4 @@
-.idea
-.idea/
-
-*.pyc
-
-*.pyproj
+!*.py
 
 
 
