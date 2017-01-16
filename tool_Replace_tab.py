@@ -2,7 +2,7 @@
 Author: Qin Shuo
 Date:   2016/04/16
 Description:
-    Replace 'tab' key with 4 whitespace
+    Replace 'tab' key with 4 whitespace in file
 '''
 
 import sys

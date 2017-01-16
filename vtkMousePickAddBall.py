@@ -20,7 +20,6 @@ import vtk
 import sys
 
 
-
 # Input: a vtkSTL object
 class vtkMousePickAddBall():
     def __init__(self,model):

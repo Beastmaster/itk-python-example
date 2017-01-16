@@ -4,6 +4,10 @@ Date:   2016/03/22
 Description:
     This file demo some vtk Readers 
 
+Support format:
+1. .msh
+2. .stl
+
 Format of .msh file
 |==============================|
 ObjectType = Scene

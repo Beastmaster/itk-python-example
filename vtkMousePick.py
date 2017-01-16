@@ -9,6 +9,7 @@
 
  Tips:
 
+1. In class
  class MyStyle(vtk.vtkInteractorStyleImage):
     def __init__(self):
         pass
@@ -17,7 +18,11 @@
 
  the above method will not re-load the mouse wheel function
  the real functional method are applied by adding event observer
+ Solution:
+ Register this event: self.AddObserver(...)
 
+2. AddObserver, Observer function conflict
+Solution: call RemoveObservers() first to unregister all event functions
 '''
 
 
@@ -57,32 +62,20 @@ renderWin.Render()
 def LeftButtonPressEvent(obj,event):
     global renderWinInteractor
     global renderer
-    coor = renderWinInteractor.GetEventPosition()
-    print "coordinate is ", coor
-    renderWinInteractor.GetPicker().Pick(renderWinInteractor.GetEventPosition()[0],renderWinInteractor.GetEventPosition()[1],0,renderer)
-    picked = renderWinInteractor.GetPicker().GetPickPosition()
-    print "position is ",picked
+    picker = renderWinInteractor.GetPicker()
+    print "indexs on window view is ", renderWinInteractor.GetEventPosition()
     picked = renderWinInteractor.GetPicker().GetSelectionPoint()
-    print "point is", picked
+    print "coordinate on 2d plane view is", picked
+    picker.Pick(renderWinInteractor.GetEventPosition()[0],renderWinInteractor.GetEventPosition()[1],0,renderer)
+    picked = renderWinInteractor.GetPicker().GetPickPosition()
+    print "3d position is ",picked
 
 
-# create a null interactorstyle to disable default rotation
-class MyStyle(vtk.vtkInteractorStyleImage):
-    def __init__(self):
-        self.AddObserver("MiddleButtonPressEvent",self.middleButtonPressEvent)
-        self.AddObserver("MiddleButtonReleaseEvent",self.middleButtonReleaseEvent)
-    def middleButtonPressEvent(self,obj,event):
-        print("middle button pressed")
-        pass
-    def middleButtonReleaseEvent(self,obj,event):
-        print("middle button released")
-        pass
-
-style = MyStyle()
-#style  = vtk.vtkInteractorStyleImage()
-renderWinInteractor.SetInteractorStyle(style)
-
+renderWinInteractor.RemoveObservers(vtk.vtkCommand.LeftButtonPressEvent)  # this line to solve event conflict
 renderWinInteractor.AddObserver(vtk.vtkCommand.LeftButtonPressEvent,LeftButtonPressEvent)
+renderWinInteractor.Initialize()
+
+vtk.vtkCommand.TDxButtonPressEvent
 
 renderWinInteractor.Start()
 

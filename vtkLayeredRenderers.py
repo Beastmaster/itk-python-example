@@ -12,8 +12,13 @@ Function:
 import vtk
 
 
-class my_style(vtk.vtkInteractorStyleImage):
+#class my_style(vtk.vtkInteractorStyleImage):
+class my_style(vtk.vtkInteractorStyle):
     def __init__(self):
+        # register interactor callback
+        self.AddObserver('MouseWheelForwardEvent',self.xOnMouseWheelForward)
+        self.AddObserver('MouseWheelBackwardEvent',self.xOnMouseWheelBackward)
+
         # index
         self.ori_index = [0,0,0]
         self.ori_direction = [1,1,1] #cosine
@@ -32,12 +37,12 @@ class my_style(vtk.vtkInteractorStyleImage):
     def SetSlice(self,x,y,z):
         self.cur_direction = [x,y,z]
 
-    def OnMouseWheelForward(self):
+    def xOnMouseWheelForward(self,bj,event):
         print("Mouse Wheel Forward")
-        self.reslicer.Update()
-    def OnMouseWheelBackward(self):
+        #self.reslicer.Update()
+    def xOnMouseWheelBackward(self,obj,event):
         print("Mouse Wheel Backward")
-        self.reslicer.Update()
+        #self.reslicer.Update()
 
 sphere = vtk.vtkSphereSource()
 sphere.Update()

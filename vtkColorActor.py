@@ -31,7 +31,9 @@ def display_color_actor(poly):
     mapper.SetInputData(poly)
     actor = vtk.vtkActor()
     actor.SetMapper(mapper)
+    #============ key line =============#
     actor.GetProperty().SetColor(0.5,0.5,0.0)
+    #============ key line =============#
 
     renderer = vtk.vtkRenderer()
     renderer.AddActor(actor)

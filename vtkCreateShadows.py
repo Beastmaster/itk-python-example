@@ -138,7 +138,7 @@ boxNormals.SetInputData(boxSource.GetOutput())
 boxNormals.SetComputePointNormals(0)
 boxNormals.SetComputeCellNormals(0)
 boxNormals.Update();
-boxNormals.GetOutput().GetPointData().SetNormals(0)
+boxNormals.GetOutput().GetPointData().SetNormals(boxNormals)
 
 boxMapper = vtk.vtkPolyDataMapper()
 boxMapper.SetInputData(boxNormals.GetOutput())
