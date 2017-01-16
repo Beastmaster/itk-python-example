@@ -5,7 +5,7 @@
 # This script is transformed strictly depend on ITK C++ source file
 
 
-import itk
+#import itk
 import vtk
 import sys
 
@@ -103,3 +103,25 @@ class QuickView:
         
 
 
+def visualize_poly(*poly):
+    def create_actor(poly):
+        mapper = vtk.vtkPolyDataMapper()
+        mapper.SetInputData(poly)
+        actor = vtk.vtkActor()
+        actor.SetMapper(mapper)
+        return actor
+
+    actor_list = []
+    for pp in poly:
+        actor_list.append(create_actor(pp))
+
+
+    renderer = vtk.vtkRenderer()
+    for actor in actor_list:
+        renderer.AddActor(actor)
+
+    renWin = vtk.vtkRenderWindow()
+    renWin.AddRenderer(renderer)
+    interactor = vtk.vtkRenderWindowInteractor()
+    renWin.SetInteractor(interactor)
+    interactor.Start()

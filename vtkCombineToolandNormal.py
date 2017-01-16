@@ -11,14 +11,13 @@ Description:
               Compute normal
               Mouse select a position (mouse click callback)
               Transform a polydata(the focus line)
-
-
+Function: 
+    Click on a position, the second tool move to that position and record transform matrix.abs
+    When the render window is closed, new file will be saved 
 SubSystem:
     TMS Navigation
 
 '''
-
-
 
 
 import vtk
