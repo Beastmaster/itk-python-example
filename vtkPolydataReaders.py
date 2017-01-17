@@ -55,46 +55,46 @@ def Read_mesh(file_name):
     points = vtk.vtkPoints()
     polys = vtk.vtkCellArray()
 
-    file = open(file_name,'r')
-    while True: 
-        line = file.readline()
-        if not line:
-            break
-        if line.find('Points')>=0:
-            num_Points = int(line.split()[2])
-            print 'Number of points is {}'.format(num_Points)
-            # put in to vtkPoints
-            print 'Writing Points'
-            points.SetNumberOfPoints(num_Points)
-            file.readline()
-            for i in range(0,num_Points):
-                line = file.readline()
-                if not line:
-                    break
-                idx = line.split( )
-                x = float(idx[1])
-                y = float(idx[2])
-                z = float(idx[3])
-                points.SetPoint(i,x,y,z)
+    with open(file_name,'r') as file:
+        while True: 
+            line = file.readline()
+            if not line:
+                break
+            if line.find('Points')>=0:
+                num_Points = int(line.split()[2])
+                print 'Number of points is {}'.format(num_Points)
+                # put in to vtkPoints
+                print 'Writing Points'
+                points.SetNumberOfPoints(num_Points)
+                file.readline()
+                for i in range(0,num_Points):
+                    line = file.readline()
+                    if not line:
+                        break
+                    idx = line.split( )
+                    x = float(idx[1])
+                    y = float(idx[2])
+                    z = float(idx[3])
+                    points.SetPoint(i,x,y,z)
 
-        if line.find('NCells')>=0:
-            num_Triangles = int(line.split()[2])
-            print 'Number of Triangles is {}'.format(num_Triangles)
-            # create cells
-            print 'Writing Cells'
-            file.readline()
-            for i in range(0,num_Triangles):
-                line = file.readline()
-                if not line:
-                    break
-                idx = line.split( )
-                a = int(idx[1])
-                b = int(idx[2])
-                c = int(idx[3])
-                polys.InsertNextCell(3)
-                polys.InsertCellPoint(a)
-                polys.InsertCellPoint(b)
-                polys.InsertCellPoint(c)
+            if line.find('NCells')>=0:
+                num_Triangles = int(line.split()[2])
+                print 'Number of Triangles is {}'.format(num_Triangles)
+                # create cells
+                print 'Writing Cells'
+                file.readline()
+                for i in range(0,num_Triangles):
+                    line = file.readline()
+                    if not line:
+                        break
+                    idx = line.split( )
+                    a = int(idx[1])
+                    b = int(idx[2])
+                    c = int(idx[3])
+                    polys.InsertNextCell(3)
+                    polys.InsertCellPoint(a)
+                    polys.InsertCellPoint(b)
+                    polys.InsertCellPoint(c)
 
 	
 	polyData = vtk.vtkPolyData()
