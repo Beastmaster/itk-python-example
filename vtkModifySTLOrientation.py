@@ -201,7 +201,7 @@ if __name__ == '__main__':
         print "Para1: Source model file name, a .stl file"
         print "Para2: Output model file name, a .stl file"
         if len(sys.argv)<2:
-            in_file = "E:/WorkPlace/Cpp/vtk_solutions/TMS/configFile/Model/coil_2_s.stl"
+            in_file = "D:/data/transed.stl"
             out_file = "E:/test/newQinShuoTShapeM.stl"
         else:
             in_file = sys.argv[1]

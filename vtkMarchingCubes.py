@@ -10,7 +10,7 @@ mouse click
 import vtk
 import sys
 
-def MarchingCube(image,threshold):
+def MarchingCubes(image,threshold):
     '''
     http://www.vtk.org/Wiki/VTK/Examples/Cxx/Modelling/ExtractLargestIsosurface 
     '''
@@ -31,12 +31,16 @@ def MarchingCube(image,threshold):
 
 
 if __name__ == '__main__':
-    from QuickView import visualize_poly
-    ff = 'D:/data/skull.nii'
+    #from QuickView import visualize_poly
+    ff = '1-L1_th.nii'
     reader = vtk.vtkNIFTIImageReader()
     reader.SetFileName(ff)
     reader.Update()
     im = reader.GetOutput()
-    poly = MarchingCube(im,5)
-    visualize_poly(poly)
+    poly = MarchingCubes(im,1)
+    #visualize_poly(poly)
+    writer = vtk.vtkSTLWriter()
+    writer.SetInputData(poly)
+    writer.SetFileName('xx.stl')
+    writer.Update()
 
