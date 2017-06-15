@@ -30,6 +30,15 @@ def MarchingCubes(image,threshold):
     return confilter.GetOutput()
 
 
+def Smooth_stl(stl):
+    smoothFilter = vtk.vtkSmoothPolyDataFilter()
+    smoothFilter.SetInputConnection(stl)
+    smoothFilter.SetNumberOfIterations(15)
+    smoothFilter.SetRelaxationFactor(0.1)
+    smoothFilter.FeatureEdgeSmoothingOff()
+    smoothFilter.BoundarySmoothingOn()
+    smoothFilter.Update()
+
 if __name__ == '__main__':
     #from QuickView import visualize_poly
     ff = '1-L1_th.nii'
